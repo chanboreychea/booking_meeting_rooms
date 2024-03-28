@@ -2,43 +2,38 @@
 
 @section('title', 'Booking Room')
 
-@section('contents')
-
+@section('message')
     @if ($message = Session::get('message'))
-        <div class="container position-relative" id="success-alert">
+        <div class="position-absolute top-0 end-0 success-alert" id="success-alert" style="z-index:999;">
+            <div class="toast show ">
 
-            <div class="position-absolute top-0 end-0 p-3 success-alert" style="z-index:999;margin-top:-90px; ">
+                <div class="toast-header">
 
-                <div class="toast show ">
+                    <strong class="me-auto">ការកក់បន្ទប់ប្រជុំ</strong>
 
-                    <div class="toast-header">
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="toast"></button>
 
-                        <strong class="me-auto">ការកក់បន្ទប់ប្រជុំ</strong>
+                </div>
 
-                        <button type="button" class="btn-close text-white" data-bs-dismiss="toast"></button>
+                <div class="toast-body text-success">
 
-                    </div>
-
-                    <div class="toast-body text-success">
-
-                        <b>{{ $message }}</b>
-
-                    </div>
+                    <b>{{ $message }}</b>
 
                 </div>
 
             </div>
-
         </div>
     @endif
+@endsection
+
+@section('contents')
 
     <div class="card">
-        <div class="card-header bg-info">
-            <h5>រងចាំ</h5>
+        <div class="card-header bg-muted">
+            <h5 class="text-danger">ការស្នើសុំកក់បន្ទប់ប្រជំុ</h5>
         </div>
         <div class="card-body">
-
-            <table class="table table-sm table-bordered">
+            <table class="table table-sm table-bordered bg-light">
                 <thead class="thead-light">
                     <th class="text-center">ល.រ</th>
                     <th class="text-center">កាលបរិច្ឆេទ</th>
@@ -51,7 +46,7 @@
                     <th class="text-center">គោលបំណង</th>
                     <th class="text-center">អនុញ្ញាត</th>
                 </thead>
-                <tbody>
+                <tbody class="bg-light">
                     @foreach ($booking as $key => $item)
                         <tr>
                             <td class="text-center">{{ $key + 1 }}</td>
@@ -112,11 +107,42 @@
         </div>
     </div>
 
-    <div class="card mt-5">
-        <div class="card-header bg-primary">
-            <h5>អនុញ្ញាត</h5>
+    <div class="card mt-20">
+        <div class="card-header bg-gray">
+            <form action="/booking" action="GET">
+                @csrf
+                <div class="row d-flex align-items-center">
+
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-text text-danger" id="basic-addon1">From</span>
+                            <input type="date" name="fromDate" min="{{ now()->subMonths(3)->format('Y-m-d') }}"
+                                max="{{ now()->format('Y-m-d') }}" class="form-control" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-text text-danger" id="basic-addon1">To</span>
+                            <input type="date" name="toDate" class="form-control" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-sm-12">
+                        <div class="row">
+                            <div class="col"><input class="btn btn-success w-100 text-white" type="submit"
+                                    value="Filter"></div>
+                            <div class="col"><a href="/booking/export/excel"
+                                    class="btn btn-success w-100 text-white">Export</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-gray">
 
             <table class="table table-sm table-bordered">
                 <thead class="thead-light">
@@ -146,9 +172,9 @@
                             <td class="text-center">{{ $item->description }}</td>
 
                             @if ($item->isApprove == 1)
-                                <td class="text-center text-green">អនុញ្ញាត</td>
+                                <td class="text-center text-success">អនុញ្ញាត</td>
                             @elseif ($item->isApprove == 2)
-                                <td class="text-center text-red">បដិសេធ</td>
+                                <td class="text-center text-danger">បដិសេធ</td>
                             @else
                             @endif
 

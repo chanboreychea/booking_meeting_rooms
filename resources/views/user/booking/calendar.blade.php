@@ -2,13 +2,14 @@
 
 @section('message')
     @if ($message = Session::get('message'))
-        <div class="position-absolute top-0 end-0 p-2 success-alert" id="success-alert" style="z-index:999;">
-
+        <div class="position-absolute top-0 end-0 success-alert" id="success-alert" style="z-index:999;">
             <div class="toast show ">
 
                 <div class="toast-header">
 
-                    <strong class="me-auto">Booking</strong>
+                    <strong class="me-auto">ការកក់បន្ទប់ប្រជុំ</strong>
+
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="toast"></button>
 
                 </div>
 
@@ -19,7 +20,6 @@
                 </div>
 
             </div>
-
         </div>
     @endif
 @endsection

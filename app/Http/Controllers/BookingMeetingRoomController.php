@@ -5,18 +5,23 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Enum\Approve;
+use App\Exports\BookingMeetingRoomExport;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\BookingMeetingRoom;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingMeetingRoomController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+
         $query = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
-            ->where('booking_meeting_rooms.date', '>=', Carbon::now()->format('Y-m-d'))
             ->select(
                 'booking_meeting_rooms.id',
                 'users.name',
@@ -32,14 +37,61 @@ class BookingMeetingRoomController extends Controller
                 'isApprove'
             );
 
+
         $a = clone $query;
         $b = clone $query;
 
+        if ($fromDate && $toDate) {
+            $a->whereBetween('date', [Carbon::parse($fromDate)->format('Y-m-d'), Carbon::parse($toDate)->format('Y-m-d')]);
+        } else {
+            $a->where('date', '>=', Carbon::now()->format('Y-m-d'));
+        }
+
         $isApproveBooking = $a->where('isApprove', '!=', Approve::PENDING)->orderByDesc('date')->get();
-        $booking = $b->where('isApprove', Approve::PENDING)->orderByDesc('date')->get();
+
+        $booking = $b->where('date', '>=', Carbon::now()->format('Y-m-d'))->where('isApprove', Approve::PENDING)->orderByDesc('date')->get();
 
 
         return view('admin.booking.index', compact('booking', 'isApproveBooking'));
+    }
+
+    public function exportBookingMeetingRoom(Request $request)
+    {
+        $previousUrl = URL::previous();
+        $parsedUrl = parse_url($previousUrl);
+
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $queryParams);
+        } else {
+            //default
+        }
+
+        $fromDate = $queryParams['fromDate'];
+        $toDate = $queryParams['toDate'];
+
+        $query = DB::table('booking_meeting_rooms')
+            ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
+            ->select(
+                'booking_meeting_rooms.id',
+                'users.name',
+                'users.email',
+                'date',
+                'topicOfMeeting',
+                'directedBy',
+                'meetingLevel',
+                'member',
+                'room',
+                'time',
+                'description',
+            );
+
+        if ($fromDate && $toDate) {
+            $query->whereBetween('date', [Carbon::parse($fromDate)->format('Y-m-d'), Carbon::parse($toDate)->format('Y-m-d')]);
+        }
+
+        $booking = $query->where('isApprove', '!=', Approve::PENDING)->orderByDesc('date')->get();
+
+        return Excel::download(new BookingMeetingRoomExport($booking), 'booking_meeting_rooms.xlsx');
     }
 
     public function userDestroy(Request $request, string $bookingId)
@@ -75,7 +127,7 @@ class BookingMeetingRoomController extends Controller
 
 
         //$this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
-        
+
         return redirect('/booking')->with('message', 'Update Successfully');
     }
 
@@ -190,7 +242,7 @@ class BookingMeetingRoomController extends Controller
             'room' => 'required',
             'times' => 'required'
         ], [
-            'topic.required' => 'សូមបញ្ចូលនូវឈ្មោះនាយកដ្ឋាន',
+            'topic.required' => 'សូមបញ្ចូលនូវឈ្មោះប្រធានបទ',
             'topic.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
             'directedBy.required' => 'សូមបញ្ចូលនូវឈ្មោះអ្នកដឹកនាំ',
             'directedBy.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',

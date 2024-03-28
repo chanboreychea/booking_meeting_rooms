@@ -17,6 +17,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::get('/booking', [BookingMeetingRoomController::class, 'index']);
     Route::post('/booking/approve/{bookingId}', [BookingMeetingRoomController::class, 'adminApprove']);
+    Route::get('/booking/export/excel', [BookingMeetingRoomController::class, 'exportBookingMeetingRoom']);
 
     Route::resource('/users', UserController::class);
 });

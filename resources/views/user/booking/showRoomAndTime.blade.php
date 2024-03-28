@@ -2,28 +2,24 @@
 
 @section('message')
     @if ($message = Session::get('message'))
-        <div class="container position-relative" id="success-alert" style="z-index:999;">
+        <div class="position-absolute top-0 end-0 success-alert" id="success-alert" style="z-index:999;">
+            <div class="toast show ">
 
-            <div class="position-absolute top-0 end-0 p-2 success-alert">
+                <div class="toast-header">
 
-                <div class="toast show ">
+                    <strong class="me-auto">ការកក់បន្ទប់ប្រជុំ</strong>
 
-                    <div class="toast-header">
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="toast"></button>
 
-                        <strong class="me-auto">Booking</strong>
+                </div>
 
-                    </div>
+                <div class="toast-body text-success">
 
-                    <div class="toast-body text-success">
-
-                        <b>{{ $message }}</b>
-
-                    </div>
+                    <b>{{ $message }}</b>
 
                 </div>
 
             </div>
-
         </div>
     @endif
 @endsection
@@ -34,7 +30,7 @@
             <h6 class="card-header bg-info text-light">
                 ជ្រើសរើសបន្ទប់ និង ម៉ោង
             </h6>
-            <div class="card-body">
+            <div class="card-body bg-light">
                 <div class="container-fluid" id="myGroup">
                     <div class="row">
                         <div class="col-lg-6">
@@ -152,7 +148,7 @@
             <h6 class="card-header bg-danger text-light">ព័ត៌មានលម្អិត</h6>
             <form action="/booking" method="POST">
                 @csrf
-                <div class="card-body bg-gray">
+                <div class="card-body bg-light">
                     <div class="container">
                         <input type="hidden" value="{{ $now }}" id="dateInput" name="date">
                         <input type="hidden" name="userId" value="">
@@ -169,7 +165,7 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group row text-muted">
                                     <label for="roomDiv" class="col-form-label col-lg-3 ">បន្ទប់:</label>
-                                    <div class="col-lg-9 d-flex align-items-center p-0">
+                                    <div class="col-lg-9 p-0">
                                         <div id="roomDiv"></div>
                                     </div>
                                 </div>
@@ -177,19 +173,20 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group row text-muted">
                                     <label for="timeDiv" class="col-form-label col-lg-3 ">ម៉ោង:</label>
-                                    <div class="col-lg-9 d-flex align-items-center p-0">
+                                    <div class="col-lg-9 p-0">
                                         <div class="mb-0" id="timeDiv"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="topic">ប្រធានបទ:</label>
                                 <input type="text" class="form-control" name="topic" id="topic"
                                     placeholder="ប្រធានបទ">
                                 @error('topic')
-                                    <small class="form-text text-muted">{{ $message }}</small>
+                                    <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
@@ -198,7 +195,7 @@
                                 <input type="text" class="form-control" name="directedBy" id="directedBy"
                                     placeholder="ឈ្មោះ">
                                 @error('directedBy')
-                                    <small class="form-text text-muted">{{ $message }}</small>
+                                    <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
 
                             </div>
@@ -220,7 +217,7 @@
                                 <input type="number" min="2" max="50" class="form-control w-100"
                                     name="member" id="member" placeholder="ចំនួន">
                                 @error('member')
-                                    <small class="form-text text-muted">{{ $message }}</small>
+                                    <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
 
                             </div>

@@ -57,7 +57,7 @@
                         @if (Session::get('is_user_logged_in'))
                             <a class="btn btn-default btn-shadow ml-40 hover-up" href="/logout">Sign out</a>
                         @elseif (Session::get('is_admin_logged_in'))
-                            <a class="btn btn-default btn-shadow ml-40 hover-up" href="/admins/logout">Sign
+                            <a class="btn btn-default bg-danger btn-shadow ml-40 hover-up" href="/admins/logout">Sign
                                 out</a>
                         @else
                             <a class="btn btn-default btn-shadow ml-40 hover-up" href="/login">Sign in</a>
