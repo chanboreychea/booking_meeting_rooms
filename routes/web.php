@@ -1,5 +1,7 @@
 <?php
 
+use App\Enum\Department;
+use App\Enum\Office;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\UserController;
@@ -34,4 +36,14 @@ Route::middleware(['user'])->group(function () {
     Route::get('/days/{day}/{month}', [BookingMeetingRoomController::class, 'showRoomAndTime']);
     Route::post('/booking', [BookingMeetingRoomController::class, 'bookingRoom']);
     Route::delete('/booking/{userId}', [BookingMeetingRoomController::class, 'userDestroy']);
+});
+
+
+//test
+
+Route::get('/offices', function () {
+
+    $departments = Department::DEPARTMENTS;
+    dd($departments['សវនកម្មទី ១']);
+    // return view('department', compact('departments'));
 });
