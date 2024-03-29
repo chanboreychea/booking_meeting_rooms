@@ -43,7 +43,7 @@ abstract class Controller
             $month = 'កក្កដា';
         } elseif ($month == 'Aug') {
             $month = 'សីហា';
-        } elseif ($month == 'Set') {
+        } elseif ($month == 'Sep') {
             $month = 'កញ្ញា';
         } elseif ($month == 'Oct') {
             $month = 'តុលា';

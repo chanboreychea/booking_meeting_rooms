@@ -30,8 +30,8 @@ Route::post('/users/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 Route::middleware(['user'])->group(function () {
 
-    Route::get('/calendar', [BookingMeetingRoomController::class, 'calendar']);
-    Route::get('/days/{day}', [BookingMeetingRoomController::class, 'showRoomAndTime']);
+    Route::get('/calendar', [BookingMeetingRoomController::class, 'calendar'])->name('calendar');
+    Route::get('/days/{day}/{month}', [BookingMeetingRoomController::class, 'showRoomAndTime']);
     Route::post('/booking', [BookingMeetingRoomController::class, 'bookingRoom']);
     Route::delete('/booking/{userId}', [BookingMeetingRoomController::class, 'userDestroy']);
 });

@@ -222,10 +222,13 @@
 
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="description" class="form-label col-lg-2">គោលបំណង:</label>
-                            <div class="col-lg-10">
-                                <textarea name="description" id="description" class="form-control" cols="30" rows="3"></textarea>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="form-group col-lg-6 col-sm-12">
+                                <label for="description" class="col-form-label">គោលបំណង:</label>
+                                <div>
+                                    <textarea name="description" id="description" class="form-control" cols="30" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>

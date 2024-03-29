@@ -25,6 +25,25 @@
 @endsection
 
 @section('contents')
+    <div class="d-flex justify-content-center align-items-start">
+        <h4>{{ $date }}</h4>
+    </div>
+    <div class="row mb-2 d-flex justify-content-center align-items-center">
+        <div class="col">
+            <form action="/calendar" method="GET">
+                @csrf
+                <input type="hidden" name="previous" value="{{ $month - 1 }}">
+                <input type="submit" class="btn btn-sm" value="<< Previous">
+            </form>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <form action="/calendar" method="GET">
+                @csrf
+                <input type="hidden" name="next" value="{{ $month + 1 }}">
+                <input type="submit" class="btn btn-sm" value="Next >>">
+            </form>
+        </div>
+    </div>
     <div class="row table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">
@@ -50,7 +69,8 @@
                                 <td>
                                     @if ($day == '')
                                     @elseif ($day >= $dday)
-                                        <a href="/days/{{ $day }}" class="btn btn-info btn-sm days w-100">
+                                        <a href="/days/{{ $day }}/{{ $month }}"
+                                            class="btn btn-info btn-sm days w-100">
                                             {{ $day }}
                                         </a>
                                     @else

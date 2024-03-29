@@ -131,18 +131,48 @@ class BookingMeetingRoomController extends Controller
         return redirect('/booking')->with('message', 'Update Successfully');
     }
 
-    public function calendar()
+    public function calendar(Request $request)
     {
         $date = Carbon::now();
+
+        if ($request->input('next')) {
+            $next = $request->input('next');
+            //version2
+            // if ($next == 13) {
+            //     $next = 1;
+            //     $newDate = Carbon::now();
+            //     $newYear = $newDate->format('Y');
+            //     $date = Carbon::parse($date->format($newYear + 1 . '-' . $next . '-01'));
+
+            // }
+            if ($next > 12) {
+                $date = Carbon::now()->format('Y-m-d');
+            } else {
+                $date = Carbon::parse($date->format('Y-' . $next . '-01'));
+            }
+        }
+
+        if ($request->input('previous')) {
+            $previous = $request->input('previous');
+            if ($previous <= Carbon::now()->format('m')) {
+                $date = Carbon::now();
+            } else {
+                $date = Carbon::parse($date->format('Y-' . $previous . '-01'));
+            }
+        }
+
         $dday = Carbon::parse($date)->format('d');
         $month = Carbon::parse($date)->format('m');
         $year = Carbon::parse($date)->format('y');
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, date('Y'));
-        $firstDay = date('N', strtotime('first day of' . $month . '' . $year));
+        $firstDay = date('N', strtotime("$year-$month-01"));
+
+        if ($firstDay == 7) $firstDay = 0;
+
         $calendar = [];
         $week = [];
 
-        for ($i = 1; $i <= $firstDay; $i++) {
+        for ($i = 0; $i < $firstDay; $i++) {
             $week[] = '';
         }
 
@@ -158,21 +188,20 @@ class BookingMeetingRoomController extends Controller
             $calendar[] = $week;
         }
 
-        $booking = [];
+        $now = Carbon::now()->format('Y');
+        $now = Carbon::parse($now . '-' . $month . '-' . $dday);
+        $day = $this->getDayKhmer($now->format('D'));
+        $monthKh = $this->getMonthKhmer($now->format("M"));
+        $date = "ថ្ងៃ $day ទី " . $now->format('d') . " ខែ $monthKh ឆ្នាំ " . $now->format('Y');
 
-        for ($i = 0; $i < 5; $i++) {
-            $booking[] = [
-                'day' => $i
-            ];
-        }
-
-
-
-        return view('user.booking.calendar', compact('dday', 'calendar'));
+        return view('user.booking.calendar', compact('dday', 'date', 'month', 'calendar'));
     }
 
     public function showBookingMeetingRooms()
     {
+        if (session('is_user_logged_in')) {
+            return redirect('/calendar');
+        }
         $booking = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
             ->where('booking_meeting_rooms.date', '>=', Carbon::now()->format('Y-m-d'))
@@ -192,16 +221,18 @@ class BookingMeetingRoomController extends Controller
                 'room',
                 'time'
             )->get();
+
         return view('user.booking.showBookingMeetingRooms', compact('booking'));
     }
 
-    public function showRoomAndTime(Request $request, string $day)
+    public function showRoomAndTime(Request $request, string $day, int $month)
     {
-        $now = Carbon::now()->format('Y-m');
-        $now = Carbon::parse($now . '-' . $day);
+        // dd($day);
+        $now = Carbon::now()->format('Y');
+        $now = Carbon::parse($now . '-' . $month . '-' . $day);
         $day = $this->getDayKhmer($now->format('D'));
-        $month = $this->getMonthKhmer($now->format("M"));
-        $date = "ថ្ងៃ $day ទី " . $now->format('d') . " ខែ $month ឆ្នាំ " . $now->format('Y');
+        $monthKh = $this->getMonthKhmer($now->format("M"));
+        $date = "ថ្ងៃ $day ទី " . $now->format('d') . " ខែ $monthKh ឆ្នាំ " . $now->format('Y');
 
         $booking = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
