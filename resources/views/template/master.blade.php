@@ -19,6 +19,33 @@
     <link href="{{ asset('assets/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <title>Booking</title>
+    <style>
+        .cardd {
+            width: 30px;
+            height: auto;
+        }
+
+        p {
+            font-size: 1em;
+            line-height: 1.3em;
+            margin: 0;
+        }
+
+        .oneLine {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .modernWay {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,6 +72,14 @@
                             <ul class="main-menu">
                                 <li class="has-children"><a href="/booking">ការកក់បន្ទប់ប្រជុំ</a></li>
                                 <li class="has-children"><a href="/users">មន្រ្តី</a></li>
+                            </ul>
+                        </nav>
+                    @endif
+                    @if (Session::get('is_user_logged_in'))
+                        <nav class="nav-main-menu">
+                            <ul class="main-menu">
+                                <li class="has-children"><a href="/calendar">ការកក់បន្ទប់ប្រជុំ</a></li>
+                                <li class="has-children"><a href="/booking/history">ការកក់របស់ខ្ញុំ</a></li>
                             </ul>
                         </nav>
                     @endif
@@ -90,58 +125,41 @@
                     <div class="mt-20 mb-20 font-xs color-text-paragraph-2">អាសយដ្ឋាន ៖​ អគាលេខ ១៦៨F (ជាន់ទី៩) ផ្លូវ ៥៩៨
                         សង្កាត់ច្រាំងចំរេះ១ ខណ្ឌឬស្សីកែវ រាជធានីភ្នំពេញ</div>
                     <div class="footer-social">
-                        <a class="icon-socials icon-facebook" href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a class="icon-socials icon-twitter" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="icon-socials icon-linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="icon-socials icon-facebook"
+                            href="https://www.facebook.com/profile.php?id=100069646752356"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="icon-socials icon-youtube"
+                            href="https://www.youtube.com/channel/UCzZH_Yx9_deWTDWT3XLjwZQ"><i
+                                class="fab fa-youtube"></i></a>
+                        <a class="icon-socials icon-internet" href="https://iauoffsa.gov.kh"><i
+                                class="fab fa-internet-explorer"></i></a>
+                        <a class="icon-socials icon-internet" href="https://t.me/iauoffsa"><i
+                                class="fab fa-telegram"></i></a>
                     </div>
                 </div>
                 <div class="footer-col-2 col-md-2 col-xs-6">
                     <h6 class="mb-20">Resources</h6>
                     <ul class="menu-footer">
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Our Team</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col-3 col-md-2 col-xs-6">
-                    <h6 class="mb-20">Community</h6>
-                    <ul class="menu-footer">
-                        <li><a href="#">Feature</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Credit</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col-4 col-md-2 col-xs-6">
-                    <h6 class="mb-20">Quick links</h6>
-                    <ul class="menu-footer">
-                        <li><a href="#">iOS</a></li>
-                        <li><a href="#">Android</a></li>
-                        <li><a href="#">Microsoft</a></li>
-                        <li><a href="#">Desktop</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col-5 col-md-2 col-xs-6">
-                    <h6 class="mb-20">More</h6>
-                    <ul class="menu-footer">
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="https://iauoffsa.gov.kh">About us</a></li>
+                        <li><a href="https://hrms.iauoffsa.us">Our Team</a></li>
+                        <li><a href="https://t.me/iauoffsa">Contact</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom mt-50">
                 <div class="row">
-                    <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright &copy; 2023. JOBLIST
+                    <div class="col-md-6">
+                        <span class="font-xs color-text-paragraph">Copyright &copy; 2024 IAUOFFSA
                             all right
-                            reserved</span></div>
+                            reserved</span>
+                    </div>
                     <div class="col-md-6 text-md-end text-start">
-                        <div class="footer-social"><a class="font-xs color-text-paragraph" href="#">Privacy
-                                Policy</a><a class="font-xs color-text-paragraph mr-30 ml-30" href="#">Terms
-                                &amp; Conditions</a><a class="font-xs color-text-paragraph"
-                                href="#">Security</a></div>
+                        <div class="footer-social">
+                            <a class="font-xs color-text-paragraph" href="#">Privacy Policy</a>
+                            <a class="font-xs color-text-paragraph mr-30 ml-30" href="#">Terms &amp;
+                                Conditions</a>
+                            <a class="font-xs color-text-paragraph" href="#">Security</a>
+                        </div>
                     </div>
                 </div>
             </div>

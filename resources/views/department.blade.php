@@ -9,12 +9,16 @@
 </head>
 
 <body>
-    @foreach ($departments as $key => $offices)
-        <h4>{{ $key }}</h4>
-        @foreach ($offices as $item)
-            <div>{{ $item }}</div><br>
+    <select name="" id="">
+        <option value="">ប្រធានអង្គភាព</option>
+        <option value="">អនុប្រធានអង្គភាព</option>
+        @foreach ($departments as $key => $offices)
+            <option value="">ប្រធាននាយកដ្ឋាន {{ $key }}</option>
+            @foreach ($offices as $item)
+                <option value="">ប្រធានការិយាល័យ {{ $item }}</option><br>
+            @endforeach
         @endforeach
-    @endforeach
+    </select>
 </body>
 
 </html>

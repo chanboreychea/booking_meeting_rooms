@@ -48,13 +48,13 @@
         <table class="table table-bordered">
             <thead class="thead-light">
                 <tr>
-                    <th style="text-align: center">Sun</th>
-                    <th style="text-align: center">Mon</th>
-                    <th style="text-align: center">Tue</th>
-                    <th style="text-align: center">Wed</th>
-                    <th style="text-align: center">Thu</th>
-                    <th style="text-align: center">Fri</th>
-                    <th style="text-align: center">Sat</th>
+                    <th style="text-align: center" class="text-danger">អាទិត្យ</th>
+                    <th style="text-align: center">ច័ន្ទ</th>
+                    <th style="text-align: center">អង្គារ</th>
+                    <th style="text-align: center">ពុធ</th>
+                    <th style="text-align: center">ព្រហស្បតិ៍</th>
+                    <th style="text-align: center">សុក្រ</th>
+                    <th style="text-align: center">សៅរ៍</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +62,7 @@
                     <tr>
                         @foreach ($week as $key => $day)
                             @if ($key == 0 || $key == 6)
-                                <td style="text-align: center">
+                                <td style="text-align: center" class="text-danger">
                                     {{ $day }}
                                 </td>
                             @else

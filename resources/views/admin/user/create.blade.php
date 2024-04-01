@@ -3,15 +3,14 @@
 @section('contents')
     <div class="card">
         <div class="card-header bg-success">
-            <div class="d-flex justify-content-between align-content-between">
-                <h5>ការចុះឈ្មោះមន្ត្រីសំរាប់ធ្វើការកក់បន្ទប់ប្រជុំ</h5>
+            <div class="">
+                <h5 class="text-light">ការចុះឈ្មោះមន្ត្រីសំរាប់ធ្វើការកក់បន្ទប់ប្រជុំ</h5>
             </div>
         </div>
-
         <div class="card-body">
             <form action="/users" method="POST">
                 @csrf
-                <div class="form-row">
+                <div class="row">
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label class="form-label" for="exampleFormControlInput1">ជាអក្សរឡាតាំង</label>
@@ -50,7 +49,7 @@
 
                 <div class=" d-flex justify-between align-items-center">
                     <input type="submit" class="btn btn-primary btn-sm" value="រក្សាទុក">
-                    <a class="btn btn-dark btn-sm ml-2" href="/users">ថយក្រោយ</a>
+                    <a class="btn btn-dark btn-sm m-2" href="/users">ថយក្រោយ</a>
                 </div>
             </form>
         </div>

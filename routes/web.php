@@ -1,7 +1,6 @@
 <?php
 
 use App\Enum\Department;
-use App\Enum\Office;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\UserController;
@@ -19,6 +18,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::get('/booking', [BookingMeetingRoomController::class, 'index']);
     Route::post('/booking/approve/{bookingId}', [BookingMeetingRoomController::class, 'adminApprove']);
+    Route::delete('/booking/{bookingId}', [BookingMeetingRoomController::class, 'adminDestroy']);
     Route::get('/booking/export/excel', [BookingMeetingRoomController::class, 'exportBookingMeetingRoom']);
 
     Route::resource('/users', UserController::class);
@@ -35,15 +35,14 @@ Route::middleware(['user'])->group(function () {
     Route::get('/calendar', [BookingMeetingRoomController::class, 'calendar'])->name('calendar');
     Route::get('/days/{day}/{month}', [BookingMeetingRoomController::class, 'showRoomAndTime']);
     Route::post('/booking', [BookingMeetingRoomController::class, 'bookingRoom']);
-    Route::delete('/booking/{userId}', [BookingMeetingRoomController::class, 'userDestroy']);
+    Route::get('/booking/history', [BookingMeetingRoomController::class, 'showUserBooking']);
+    Route::delete('/booking/{bookingId}/user', [BookingMeetingRoomController::class, 'userDestroy']);
 });
 
 
 //test
-
-Route::get('/offices', function () {
+Route::get('/departments', function () {
 
     $departments = Department::DEPARTMENTS;
-    dd($departments['សវនកម្មទី ១']);
-    // return view('department', compact('departments'));
+    return view('department', compact('departments'));
 });

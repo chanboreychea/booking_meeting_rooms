@@ -26,9 +26,9 @@
                                 <div class="d-flex justify-content-center align-items-center">
                                     <form class="me-2" action="/users/{{ $user->id }}/edit">
                                         @csrf
-                                        <input class="btn btn-dark btn-sm" type="submit" value="កែ">
+                                        <input class="btn btn-primary btn-sm" type="submit" value="កែសម្រួល">
                                     </form>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#deleteRecord{{ $user->id }}">
                                         លុប
                                     </button>

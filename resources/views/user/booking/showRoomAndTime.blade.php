@@ -194,6 +194,18 @@
 
                                 <input type="text" class="form-control" name="directedBy" id="directedBy"
                                     placeholder="ឈ្មោះ">
+
+                                {{-- <select class="form-control" name="directedBy" id="directedBy">
+                                    <option value="">ប្រធានអង្គភាព</option>
+                                    <option value="">អនុប្រធានអង្គភាព</option>
+                                    @foreach ($departments as $key => $offices)
+                                        <option value="">ប្រធាននាយកដ្ឋាន {{ $key }}</option>
+                                        @foreach ($offices as $item)
+                                            <option value="">ប្រធានការិយាល័យ {{ $item }}</option><br>
+                                        @endforeach
+                                    @endforeach
+                                </select> --}}
+                                
                                 @error('directedBy')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror

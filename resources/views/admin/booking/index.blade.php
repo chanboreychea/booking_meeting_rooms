@@ -89,7 +89,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <input type="submit" name="reject" class="btn btn-primary"
+                                                    <input type="submit" name="reject" class="btn btn-danger"
                                                         value="បដិសេធ">
                                                     <input type="submit" name="approve" class="btn btn-primary"
                                                         value="អនុញ្ញាត">
@@ -121,7 +121,6 @@
                                 aria-describedby="basic-addon1">
                         </div>
                     </div>
-
                     <div class="col-lg-4 col-sm-12">
                         <div class="input-group">
                             <span class="input-group-text text-danger" id="basic-addon1">To</span>
@@ -155,8 +154,8 @@
                     <th class="text-center">ម៉ោង</th>
                     <th class="text-center">ឈ្មោះអ្នកកក់</th>
                     <th class="text-center">គោលបំណង</th>
-                    <th class="text-center">អនុញ្ញាត</th>
-                    <th class="text-center">កែប្រែ</th>
+                    <th class="text-center">ការស្នើរ</th>
+                    <th class="text-center">ពិនិត្យ</th>
                 </thead>
                 <tbody>
                     @foreach ($isApproveBooking as $key => $item)
@@ -182,9 +181,8 @@
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
                                     data-target="#exampleModal{{ $item->id }}">
-                                    ពិនិត្យ
+                                    កែប្រែ
                                 </button>
-
                                 <div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1"
                                     role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -209,12 +207,39 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <input type="submit" name="reject" class="btn btn-primary"
+                                                    <input type="submit" name="reject" class="btn btn-danger"
                                                         value="បដិសេធ">
                                                     <input type="submit" name="approve" class="btn btn-primary"
                                                         value="អនុញ្ញាត">
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                    data-target="#deleteRecord{{ $item->id }}">
+                                    លុប
+                                </button>
+                                <div class="modal fade" id="deleteRecord{{ $item->id }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                    លុបការកក់បន្ទប់ប្រជុំ</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="/booking/{{ $item->id }}" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input class="btn btn-primarយ btn-sm" type="submit" value="យល់ព្រម">
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

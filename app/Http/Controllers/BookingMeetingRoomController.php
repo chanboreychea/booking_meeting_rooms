@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Enum\Approve;
-use App\Exports\BookingMeetingRoomExport;
 use App\Models\Booking;
+use App\Enum\Department;
 use Illuminate\Http\Request;
 use App\Models\BookingMeetingRoom;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BookingMeetingRoomExport;
 
 class BookingMeetingRoomController extends Controller
 {
@@ -55,19 +56,35 @@ class BookingMeetingRoomController extends Controller
         return view('admin.booking.index', compact('booking', 'isApproveBooking'));
     }
 
+    public function showUserBooking()
+    {
+        $booking = BookingMeetingRoom::where('userId', session('user_id'))
+            ->where('date', '>=', Carbon::now()->format('Y-m-d'))
+            ->where('isApprove', '!=', Approve::REJECT)->get();
+
+        return view('user.booking.showUserBooking', compact('booking'));
+    }
+
     public function exportBookingMeetingRoom(Request $request)
     {
         $previousUrl = URL::previous();
         $parsedUrl = parse_url($previousUrl);
+        $defaultDate = $this->getDatesByPeriodName('this_month', Carbon::now());
 
         if (isset($parsedUrl['query'])) {
             parse_str($parsedUrl['query'], $queryParams);
+            $fromDate = $queryParams['fromDate'];
+            $toDate = $queryParams['toDate'];
+            if ($fromDate == "") {
+                $fromDate = Carbon::parse($defaultDate[0])->format('Y-m-d');
+            }
+            if ($toDate == '') {
+                $toDate = Carbon::parse($defaultDate[1])->format('Y-m-d');
+            }
         } else {
-            //default
+            $fromDate = Carbon::parse($defaultDate[0])->format('Y-m-d');
+            $toDate = Carbon::parse($defaultDate[1])->format('Y-m-d');
         }
-
-        $fromDate = $queryParams['fromDate'];
-        $toDate = $queryParams['toDate'];
 
         $query = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
@@ -89,7 +106,7 @@ class BookingMeetingRoomController extends Controller
             $query->whereBetween('date', [Carbon::parse($fromDate)->format('Y-m-d'), Carbon::parse($toDate)->format('Y-m-d')]);
         }
 
-        $booking = $query->where('isApprove', '!=', Approve::PENDING)->orderByDesc('date')->get();
+        $booking = $query->where('isApprove', '=', Approve::APPROVE)->orderByDesc('date')->get();
 
         return Excel::download(new BookingMeetingRoomExport($booking), 'booking_meeting_rooms.xlsx');
     }
@@ -99,6 +116,13 @@ class BookingMeetingRoomController extends Controller
         $booking = BookingMeetingRoom::find($bookingId);
         $booking->delete();
         return redirect('/calendar')->with('message', 'Update Successfully');
+    }
+
+    public function adminDestroy(Request $request, string $bookingId)
+    {
+        $booking = BookingMeetingRoom::find($bookingId);
+        $booking->delete();
+        return redirect('/booking')->with('message', 'Update Successfully');
     }
 
     public function adminApprove(Request $request, string $bookingId)
@@ -128,7 +152,7 @@ class BookingMeetingRoomController extends Controller
 
         //$this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
-        return redirect('/booking')->with('message', 'Update Successfully');
+        return redirect()->back()->with('message', 'Update Successfully');
     }
 
     public function calendar(Request $request)
@@ -228,6 +252,7 @@ class BookingMeetingRoomController extends Controller
     public function showRoomAndTime(Request $request, string $day, int $month)
     {
         // dd($day);
+        $departments = Department::DEPARTMENTS;
         $now = Carbon::now()->format('Y');
         $now = Carbon::parse($now . '-' . $month . '-' . $day);
         $day = $this->getDayKhmer($now->format('D'));
@@ -259,7 +284,7 @@ class BookingMeetingRoomController extends Controller
                 'time',
             )->get();
 
-        return view('user.booking.showRoomAndTime', compact('verifyTimesBooking', 'booking', 'now', 'date', 'day'));
+        return view('user.booking.showRoomAndTime', compact('departments', 'verifyTimesBooking', 'booking', 'now', 'date', 'day'));
     }
 
     public function bookingRoom(Request $request)
