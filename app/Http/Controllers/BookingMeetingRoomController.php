@@ -16,6 +16,39 @@ use App\Exports\BookingMeetingRoomExport;
 
 class BookingMeetingRoomController extends Controller
 {
+    public function showBookingMeetingRooms()
+    {
+        if (session('is_user_logged_in')) {
+            return redirect('/calendar');
+        }
+
+        if (session('is_admin_logged_in')) {
+            return redirect('/booking');
+        }
+
+        $booking = DB::table('booking_meeting_rooms')
+            ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
+            ->where('booking_meeting_rooms.date', '>=', Carbon::now()->format('Y-m-d'))
+            ->where('isApprove', Status::APPROVE)
+            ->orderByDesc('date')
+            ->select(
+                'users.email',
+                'users.name',
+                'booking_meeting_rooms.id',
+                'date',
+                'userId',
+                'topicOfMeeting',
+                'directedBy',
+                'meetingLevel',
+                'member',
+                'description',
+                'room',
+                'time'
+            )->get();
+
+        return view('user.booking.showBookingMeetingRooms', compact('booking'));
+    }
+
     public function index(Request $request)
     {
         $fromDate = $request->input('fromDate');
@@ -233,35 +266,6 @@ class BookingMeetingRoomController extends Controller
         $date = "ថ្ងៃ $day ទី " . $now->format('d') . " ខែ $monthKh ឆ្នាំ " . $now->format('Y');
 
         return view('user.booking.calendar', compact('dday', 'date', 'month', 'calendar'));
-    }
-
-    public function showBookingMeetingRooms()
-    {
-        if (session('is_user_logged_in')) {
-            return redirect('/calendar');
-        }
-
-        $booking = DB::table('booking_meeting_rooms')
-            ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
-            ->where('booking_meeting_rooms.date', '>=', Carbon::now()->format('Y-m-d'))
-            ->where('isApprove', Status::APPROVE)
-            ->orderByDesc('date')
-            ->select(
-                'users.email',
-                'users.name',
-                'booking_meeting_rooms.id',
-                'date',
-                'userId',
-                'topicOfMeeting',
-                'directedBy',
-                'meetingLevel',
-                'member',
-                'description',
-                'room',
-                'time'
-            )->get();
-
-        return view('user.booking.showBookingMeetingRooms', compact('booking'));
     }
 
     public function showRoomAndTime(Request $request, string $day, int $month)
