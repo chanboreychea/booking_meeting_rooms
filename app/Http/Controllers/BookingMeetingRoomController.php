@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Enum\Status;
 use App\Models\User;
-use App\Enum\Approve;
 use App\Models\Booking;
 use App\Enum\Department;
 use Illuminate\Http\Request;
@@ -20,6 +20,7 @@ class BookingMeetingRoomController extends Controller
     {
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
+        $room = $request->input('room');
 
         $query = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
@@ -39,18 +40,22 @@ class BookingMeetingRoomController extends Controller
             );
 
 
-        $a = clone $query;
-        $b = clone $query;
+        $approve = clone $query;
+        $pending = clone $query;
 
         if ($fromDate && $toDate) {
-            $a->whereBetween('date', [Carbon::parse($fromDate)->format('Y-m-d'), Carbon::parse($toDate)->format('Y-m-d')]);
+            $approve->whereBetween('date', [Carbon::parse($fromDate)->format('Y-m-d'), Carbon::parse($toDate)->format('Y-m-d')]);
         } else {
-            $a->where('date', '>=', Carbon::now()->format('Y-m-d'));
+            $approve->where('date', '>=', Carbon::now()->format('Y-m-d'));
         }
 
-        $isApproveBooking = $a->where('isApprove', '!=', Approve::PENDING)->orderByDesc('date')->get();
+        if ($room) {
+            $approve->where('room', $room);
+        }
 
-        $booking = $b->where('date', '>=', Carbon::now()->format('Y-m-d'))->where('isApprove', Approve::PENDING)->orderByDesc('date')->get();
+        $isApproveBooking = $approve->where('isApprove', '!=', Status::PENDING)->orderByDesc('date')->get();
+
+        $booking = $pending->where('date', '>=', Carbon::now()->format('Y-m-d'))->where('isApprove', Status::PENDING)->orderByDesc('date')->get();
 
 
         return view('admin.booking.index', compact('booking', 'isApproveBooking'));
@@ -58,9 +63,14 @@ class BookingMeetingRoomController extends Controller
 
     public function showUserBooking()
     {
+        // $last_thirtyDay = $this->getDatesByPeriodName('last_30_days', Carbon::now());
+
         $booking = BookingMeetingRoom::where('userId', session('user_id'))
-            ->where('date', '>=', Carbon::now()->format('Y-m-d'))
-            ->where('isApprove', '!=', Approve::REJECT)->get();
+
+            // ->whereBetween('date', [$last_thirtyDay[0], $last_thirtyDay[1]])
+            // ->where('date', '>=', Carbon::now())
+            ->orderByDesc('date')->limit(30)
+            ->get();
 
         return view('user.booking.showUserBooking', compact('booking'));
     }
@@ -75,6 +85,7 @@ class BookingMeetingRoomController extends Controller
             parse_str($parsedUrl['query'], $queryParams);
             $fromDate = $queryParams['fromDate'];
             $toDate = $queryParams['toDate'];
+            $room = $queryParams['room'];
             if ($fromDate == "") {
                 $fromDate = Carbon::parse($defaultDate[0])->format('Y-m-d');
             }
@@ -106,7 +117,11 @@ class BookingMeetingRoomController extends Controller
             $query->whereBetween('date', [Carbon::parse($fromDate)->format('Y-m-d'), Carbon::parse($toDate)->format('Y-m-d')]);
         }
 
-        $booking = $query->where('isApprove', '=', Approve::APPROVE)->orderByDesc('date')->get();
+        if (isset($room) && $room != null) {
+            $query->where('room', $room);
+        }
+
+        $booking = $query->where('isApprove', '=', Status::APPROVE)->orderByDesc('date')->get();
 
         return Excel::download(new BookingMeetingRoomExport($booking), 'booking_meeting_rooms.xlsx');
     }
@@ -137,18 +152,17 @@ class BookingMeetingRoomController extends Controller
             $booking->description = $request->input('description');
         }
         if ($request->input('approve')) {
-            $booking->isApprove = Approve::APPROVE;
+            $booking->isApprove = Status::APPROVE;
             $message = "បន្ទប់ទំនេរ" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
                 "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $booking->room" . PHP_EOL . "ម៉ោង៖ $booking->time";
         }
         if ($request->input('reject')) {
-            $booking->isApprove = Approve::REJECT;
+            $booking->isApprove = Status::REJECT;
             $message = "បន្ទប់ជាប់រវល់" . PHP_EOL . "ប្រធានបទស្តីពី៖ $booking->topicOfMeeting" . PHP_EOL .
                 "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $booking->room" . PHP_EOL . "ម៉ោង៖ $booking->time";
         }
 
         $booking->save();
-
 
         //$this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
@@ -226,10 +240,11 @@ class BookingMeetingRoomController extends Controller
         if (session('is_user_logged_in')) {
             return redirect('/calendar');
         }
+
         $booking = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
             ->where('booking_meeting_rooms.date', '>=', Carbon::now()->format('Y-m-d'))
-            ->where('isApprove', Approve::APPROVE)
+            ->where('isApprove', Status::APPROVE)
             ->orderByDesc('date')
             ->select(
                 'users.email',
@@ -262,7 +277,7 @@ class BookingMeetingRoomController extends Controller
         $booking = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
             ->where('date', $now->format('Y-m-d'))
-            ->where('isApprove', Approve::APPROVE)
+            ->where('isApprove', Status::APPROVE)
             ->where('userId', session('user_id'))
             ->select(
                 'users.name',
@@ -278,7 +293,7 @@ class BookingMeetingRoomController extends Controller
 
         $verifyTimesBooking = DB::table('booking_meeting_rooms')
             ->where('date', $now->format('Y-m-d'))
-            ->where('isApprove', Approve::APPROVE)
+            ->where('isApprove', Status::APPROVE)
             ->select(
                 'room',
                 'time',
@@ -319,6 +334,8 @@ class BookingMeetingRoomController extends Controller
 
         $userId = session('user_id');
 
+        $user = User::find($userId);
+
         DB::beginTransaction();
         try {
 
@@ -332,7 +349,7 @@ class BookingMeetingRoomController extends Controller
                 'room' => $room,
                 'time' => $times,
                 'description' => $description,
-                'isApprove' => Approve::PENDING
+                'isApprove' => Status::PENDING
             ]);
 
             $today = Carbon::now();
@@ -342,7 +359,7 @@ class BookingMeetingRoomController extends Controller
             $message = "សំណើសុំប្រើប្រាស់បន្ទប់ប្រជុំ" . PHP_EOL . "ដឹកនាំដោយ៖ $directedBy " . PHP_EOL . "ប្រធានបទស្តីពី៖ $topic" . PHP_EOL .
                 "ចំនួនសមាជិកចូលរួម៖ $member រូប" . PHP_EOL . "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $room" . PHP_EOL . "កម្រិតប្រជុំ៖ $meetingLevel" . PHP_EOL .
                 "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
-                "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->lastNameKh $user->firstNameKh";
+                "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
 
             $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
             //$this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");

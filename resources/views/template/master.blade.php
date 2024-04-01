@@ -115,15 +115,15 @@
         <script src="{{ asset('assets/js/plugins/counterup.js') }}"></script>
     </main>
 
-    <footer class="footer pt-50">
+    <footer class="footer pt-30">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="footer-col-1 col-md-3 col-sm-12">
-                    <a class="footer_logo" href="index.html">
+                    <a class="footer_logo d-flex" href="index.html">
                         <img alt="iauoffsa" src="{{ asset('assets/images/footerlogo.png') }}">
                     </a>
-                    <div class="mt-20 mb-20 font-xs color-text-paragraph-2">អាសយដ្ឋាន ៖​ អគាលេខ ១៦៨F (ជាន់ទី៩) ផ្លូវ ៥៩៨
-                        សង្កាត់ច្រាំងចំរេះ១ ខណ្ឌឬស្សីកែវ រាជធានីភ្នំពេញ</div>
+                </div>
+                <div class="footer-col-1 col-md-3 col-sm-12 d-flex justify-content-center align-items-center">
                     <div class="footer-social">
                         <a class="icon-socials icon-facebook"
                             href="https://www.facebook.com/profile.php?id=100069646752356"><i
@@ -137,16 +137,13 @@
                                 class="fab fa-telegram"></i></a>
                     </div>
                 </div>
-                <div class="footer-col-2 col-md-2 col-xs-6">
-                    <h6 class="mb-20">Resources</h6>
-                    <ul class="menu-footer">
-                        <li><a href="https://iauoffsa.gov.kh">About us</a></li>
-                        <li><a href="https://hrms.iauoffsa.us">Our Team</a></li>
-                        <li><a href="https://t.me/iauoffsa">Contact</a></li>
-                    </ul>
+                <div class="footer-col-1 col-md-3 col-sm-12">
+                    <div class="mt-20 mb-20 font-xs color-text-paragraph-2">
+                        អាសយដ្ឋាន ៖​ អគាលេខ ១៦៨F (ជាន់ទី៩) ផ្លូវ ៥៩៨
+                        សង្កាត់ច្រាំងចំរេះ១ ខណ្ឌឬស្សីកែវ រាជធានីភ្នំពេញ</div>
                 </div>
             </div>
-            <div class="footer-bottom mt-50">
+            <div class="footer-bottom">
                 <div class="row">
                     <div class="col-md-6">
                         <span class="font-xs color-text-paragraph">Copyright &copy; 2024 IAUOFFSA

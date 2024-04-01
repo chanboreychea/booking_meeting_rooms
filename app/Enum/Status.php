@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-class Approve
+class Status
 {
     const  APPROVE = 1;
     const REJECT = 2;

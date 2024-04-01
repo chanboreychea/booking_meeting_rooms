@@ -113,23 +113,33 @@
                 @csrf
                 <div class="row d-flex align-items-center">
 
-                    <div class="col-lg-4 col-sm-12">
+                    <div class="col-lg-3 col-sm-12">
                         <div class="input-group">
-                            <span class="input-group-text text-danger" id="basic-addon1">From</span>
+                            <span class="input-group-text text-danger" id="basic-addon1">ចាប់ពី</span>
                             <input type="date" name="fromDate" min="{{ now()->subMonths(3)->format('Y-m-d') }}"
-                                max="{{ now()->format('Y-m-d') }}" class="form-control" aria-label="Username"
-                                aria-describedby="basic-addon1">
+                                max="{{ now()->format('Y-m-d') }}" class="form-control" aria-describedby="basic-addon1">
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-12">
+                    <div class="col-lg-3 col-sm-12">
                         <div class="input-group">
-                            <span class="input-group-text text-danger" id="basic-addon1">To</span>
-                            <input type="date" name="toDate" class="form-control" aria-label="Username"
-                                aria-describedby="basic-addon1">
+                            <span class="input-group-text text-danger" id="basic-addon1">ដល់</span>
+                            <input type="date" name="toDate" class="form-control" aria-describedby="basic-addon1">
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-sm-12">
+                    <div class="col-lg-3 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-text text-danger" id="basic-addon1">បន្ទប់</span>
+                            <select class="form-control" name="room" id="basic-addon1">
+                                <option value="">ជ្រើសរើសបន្ទប់</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-12">
                         <div class="row">
                             <div class="col"><input class="btn btn-success w-100 text-white" type="submit"
                                     value="Filter"></div>
