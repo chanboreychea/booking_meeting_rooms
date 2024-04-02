@@ -54,6 +54,7 @@ class BookingMeetingRoomController extends Controller
         $fromDate = $request->input('fromDate');
         $toDate = $request->input('toDate');
         $room = $request->input('room');
+        $directedBy = $request->input('directedBy');
 
         $query = DB::table('booking_meeting_rooms')
             ->join('users', 'users.id', '=', 'booking_meeting_rooms.userId')
@@ -84,6 +85,10 @@ class BookingMeetingRoomController extends Controller
 
         if ($room) {
             $approve->where('room', $room);
+        }
+
+        if ($directedBy) {
+            $approve->where('directedBy', $directedBy);
         }
 
         $isApproveBooking = $approve->where('isApprove', '!=', Status::PENDING)->orderByDesc('date')->get();
@@ -120,10 +125,11 @@ class BookingMeetingRoomController extends Controller
             $fromDate = $queryParams['fromDate'];
             $toDate = $queryParams['toDate'];
             $room = $queryParams['room'];
+            $directedBy = $queryParams['directedBy'];
             if ($fromDate == "") {
                 $fromDate = Carbon::parse($defaultDate[0])->format('Y-m-d');
             }
-            if ($toDate == '') {
+            if ($toDate == "") {
                 $toDate = Carbon::parse($defaultDate[1])->format('Y-m-d');
             }
         } else {
@@ -153,6 +159,10 @@ class BookingMeetingRoomController extends Controller
 
         if (isset($room) && $room != null) {
             $query->where('room', $room);
+        }
+
+        if (isset($directedBy) && $directedBy != null) {
+            $query->where('directedBy', $directedBy);
         }
 
         $booking = $query->where('isApprove', '=', Status::APPROVE)->orderByDesc('date')->get();
