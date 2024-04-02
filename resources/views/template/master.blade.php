@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="msapplication-TileColor" content="#0E0E0E">
     <meta name="template-color" content="#0E0E0E">
-    {{-- <link rel="manifest" href="manifest.json" crossorigin> --}}
     <meta name="msapplication-config" content="browserconfig.xml">
     <meta name="description" content="Index page">
     <meta name="keywords" content="index, page">
     <meta name="author" content="">
     <link rel="shortcut icon" type="image/x-icon" href="">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -79,7 +79,7 @@
                         <nav class="nav-main-menu">
                             <ul class="main-menu">
                                 <li class="has-children"><a href="/calendar">ការកក់បន្ទប់ប្រជុំ</a></li>
-                                <li class="has-children"><a href="/booking/history">ការកក់របស់ខ្ញុំ</a></li>
+                                <li class="has-children"><a href="/booking/history">ប្រវត្តិកក់បន្ទប់ប្រជុំ</a></li>
                             </ul>
                         </nav>
                     @endif
@@ -103,7 +103,7 @@
         </div>
     </header>
 
-    <main class="main">
+    <main class="main" style="min-height: 75vh; height:auto">
 
         <section class="section-box mt-130 mb-100">
             <div class="container">

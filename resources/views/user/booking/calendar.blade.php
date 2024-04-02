@@ -28,21 +28,25 @@
     <div class="d-flex justify-content-center align-items-start">
         <h4>{{ $date }}</h4>
     </div>
-    <div class="row mb-2 d-flex justify-content-center align-items-center">
-        <div class="col">
+    <div class="mb-3 mt-3 d-flex justify-content-between align-items-center">
+
+        <div>
             <form action="/calendar" method="GET">
                 @csrf
                 <input type="hidden" name="previous" value="{{ $month - 1 }}">
-                <input type="submit" class="btn btn-sm" value="<< Previous">
+                <button type="submit" class="btn btn-sm btn-light rounded-2 shadow-sm"><i
+                        class='bx bx-chevrons-left'></i><span>ខែមុន</span></button>
             </form>
         </div>
-        <div class="col d-flex justify-content-end">
+        <div class="d-flex justify-content-end">
             <form action="/calendar" method="GET">
                 @csrf
                 <input type="hidden" name="next" value="{{ $month + 1 }}">
-                <input type="submit" class="btn btn-sm" value="Next >>">
+                <button type="submit" class="btn btn-sm btn-light rounded-2 shadow-sm"><span>ខែបន្ទាប់</span> <i
+                        class='bx bx-chevrons-right'></i></button>
             </form>
         </div>
+
     </div>
     <div class="row table-responsive">
         <table class="table table-bordered">
@@ -52,7 +56,10 @@
                     <th style="text-align: center">ច័ន្ទ</th>
                     <th style="text-align: center">អង្គារ</th>
                     <th style="text-align: center">ពុធ</th>
-                    <th style="text-align: center">ព្រហស្បតិ៍</th>
+                    <th style="text-align: center">
+                        <div class="d-none d-sm-block">ព្រហស្បតិ៍</div>
+                        <div class="d-block d-sm-none">ព្រ.ហ</div>
+                    </th>
                     <th style="text-align: center">សុក្រ</th>
                     <th style="text-align: center">សៅរ៍</th>
                 </tr>

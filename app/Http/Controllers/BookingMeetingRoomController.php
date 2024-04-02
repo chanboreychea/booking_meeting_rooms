@@ -90,8 +90,9 @@ class BookingMeetingRoomController extends Controller
 
         $booking = $pending->where('date', '>=', Carbon::now()->format('Y-m-d'))->where('isApprove', Status::PENDING)->orderByDesc('date')->get();
 
+        $departments = Department::DEPARTMENTS;
 
-        return view('admin.booking.index', compact('booking', 'isApproveBooking'));
+        return view('admin.booking.index', compact('booking', 'isApproveBooking', 'departments'));
     }
 
     public function showUserBooking()
@@ -163,7 +164,7 @@ class BookingMeetingRoomController extends Controller
     {
         $booking = BookingMeetingRoom::find($bookingId);
         $booking->delete();
-        return redirect('/calendar')->with('message', 'Update Successfully');
+        return redirect()->back()->with('message', 'Update Successfully');
     }
 
     public function adminDestroy(Request $request, string $bookingId)
@@ -270,7 +271,6 @@ class BookingMeetingRoomController extends Controller
 
     public function showRoomAndTime(Request $request, string $day, int $month)
     {
-        // dd($day);
         $departments = Department::DEPARTMENTS;
         $now = Carbon::now()->format('Y');
         $now = Carbon::parse($now . '-' . $month . '-' . $day);
@@ -308,7 +308,6 @@ class BookingMeetingRoomController extends Controller
 
     public function bookingRoom(Request $request)
     {
-
         $request->validate([
             'topic' => 'bail|required|max:100',
             'directedBy' => 'bail|required|max:100',
@@ -324,7 +323,9 @@ class BookingMeetingRoomController extends Controller
             'member.required' => 'សូមបញ្ចូលនូវចំនួនសមាជិក',
             'member.min' => 'អក្សរអនុញ្ញាតតិចបំផុតត្រឹម​ ២ តួរ',
             'member.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
-            'description.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ២៥៥​ តួរ'
+            'description.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ២៥៥​ តួរ',
+            'room.required' => 'សូមជ្រើសរើសបន្ទប់',
+            'times.required' => 'សូមជ្រើសរើសម៉ោង',
         ]);
 
         $topic = $request->input('topic');

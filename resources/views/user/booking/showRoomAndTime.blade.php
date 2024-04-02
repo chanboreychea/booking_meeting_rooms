@@ -22,6 +22,30 @@
             </div>
         </div>
     @endif
+    @if ($errors->any())
+        <div class="position-absolute top-0 end-0 danger-alert" id="success-alert" style="z-index:999;">
+            <div class="toast show ">
+
+                <div class="toast-header">
+
+                    <strong class="me-auto">ការកក់បន្ទប់ប្រជុំ</strong>
+
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="toast"></button>
+
+                </div>
+
+                <div class="toast-body text-danger">
+
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+
+
+                </div>
+
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('contents')
@@ -183,8 +207,8 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="topic">ប្រធានបទ:</label>
-                                <input type="text" class="form-control" name="topic" id="topic"
-                                    placeholder="ប្រធានបទ">
+                                <input type="text" class="form-control" value="{{ old('topic') }}" name="topic"
+                                    id="topic" placeholder="ប្រធានបទ">
                                 @error('topic')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
@@ -192,23 +216,34 @@
                             <div class="form-group col-md-6">
                                 <label for="directedBy">ដឹកនាំដោយ:</label>
 
-                                <input type="text" class="form-control" name="directedBy" id="directedBy"
-                                    placeholder="ឈ្មោះ">
+                                {{-- <input type="text" class="form-control" name="directedBy" id="directedBy"
+                                    placeholder="ឈ្មោះ"> --}}
 
-                                {{-- <select class="form-control" name="directedBy" id="directedBy">
-                                    <option value="">ប្រធានអង្គភាព</option>
-                                    <option value="">អនុប្រធានអង្គភាព</option>
+                                <select class="form-control" name="directedBy" id="directedBy">
+                                    <option value="ប្រធានអង្គភាព">
+                                        ប្រធានអង្គភាព
+                                    </option>
+                                    <option value="អនុប្រធានអង្គភាព">អនុប្រធានអង្គភាព</option>
                                     @foreach ($departments as $key => $offices)
-                                        <option value="">ប្រធាននាយកដ្ឋាន {{ $key }}</option>
-                                        @foreach ($offices as $item)
-                                            <option value="">ប្រធានការិយាល័យ {{ $item }}</option><br>
+                                        <option value="ប្រធាននាយកដ្ឋាន{{ $key }}">
+                                            ប្រធាននាយកដ្ឋាន
+                                            {{ $key }}</option>
+                                        <option value="អនុប្រធាននាយកដ្ឋាន{{ $key }}">
+                                            អនុប្រធាននាយកដ្ឋាន
+                                            {{ $key }}</option>
+                                        @foreach ($offices as $key => $item)
+                                            <option value="ប្រធានការិយាល័យ{{ $item }}">ប្រធានការិយាល័យ
+                                                {{ $item }}</option>
+
+                                            <option value="អនុប្រធានការិយាល័យ{{ $item }}">អនុប្រធានការិយាល័យ
+                                                {{ $item }}</option>
                                         @endforeach
                                     @endforeach
-                                </select> --}}
-                                
-                                @error('directedBy')
+                                </select>
+
+                                {{-- @error('directedBy')
                                     <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
+                                @enderror --}}
 
                             </div>
                         </div>
@@ -226,8 +261,8 @@
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="member" class="col-form-label">ចំនួនសមាជិក:</label>
-                                <input type="number" min="2" max="50" class="form-control w-100"
-                                    name="member" id="member" placeholder="ចំនួន">
+                                <input type="number" min="2" max="50" value="{{ old('member') }}"
+                                    class="form-control w-100" name="member" id="member" placeholder="ចំនួន">
                                 @error('member')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
