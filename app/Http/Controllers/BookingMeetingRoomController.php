@@ -380,7 +380,7 @@ class BookingMeetingRoomController extends Controller
             $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
             DB::commit();
-            // return redirect('/calendar')->with('message', 'Booking Successfully.');
+            return redirect('/calendar')->with('message', 'Booking Successfully.');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect('/calendar')->with('message', 'Please try again!!');
@@ -403,7 +403,7 @@ class BookingMeetingRoomController extends Controller
         if ($result === false) {
             $error = curl_error($ch);
             // Handle the error, e.g., log it or display an error message
-            echo "cURL Error: " . $error;
+            // echo "cURL Error: " . $error;
             return redirect()->back()->with('message', 'Please try again!!.');
         } else {
             // Request successful, you can process the result here
