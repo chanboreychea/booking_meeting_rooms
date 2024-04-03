@@ -208,7 +208,7 @@ class BookingMeetingRoomController extends Controller
 
         $booking->save();
 
-        //$this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
+        $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
         return redirect()->back()->with('message', 'Update Successfully');
     }
@@ -376,11 +376,11 @@ class BookingMeetingRoomController extends Controller
                 "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
                 "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
 
-            $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
-            //$this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
+            // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
+            $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
             DB::commit();
-            return redirect('/calendar')->with('message', 'Booking Successfully.');
+            // return redirect('/calendar')->with('message', 'Booking Successfully.');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect('/calendar')->with('message', 'Please try again!!');
@@ -404,6 +404,7 @@ class BookingMeetingRoomController extends Controller
             $error = curl_error($ch);
             // Handle the error, e.g., log it or display an error message
             echo "cURL Error: " . $error;
+            return redirect()->back()->with('message', 'Please try again!!.');
         } else {
             // Request successful, you can process the result here
             echo "Message sent successfully!";
