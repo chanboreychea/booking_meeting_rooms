@@ -227,7 +227,7 @@ class BookingMeetingRoomController extends Controller
             //     $date = Carbon::parse($date->format($newYear + 1 . '-' . $next . '-01'));
 
             // }
-            if ($next > 12) {
+            if ($next > 12 || $next < Carbon::now()->format('m')) {
                 $date = Carbon::now()->format('Y-m-d');
             } else {
                 $date = Carbon::parse($date->format('Y-' . $next . '-01'));
@@ -236,7 +236,7 @@ class BookingMeetingRoomController extends Controller
 
         if ($request->input('previous')) {
             $previous = $request->input('previous');
-            if ($previous <= Carbon::now()->format('m')) {
+            if ($previous <= Carbon::now()->format('m') || $previous > 12) {
                 $date = Carbon::now();
             } else {
                 $date = Carbon::parse($date->format('Y-' . $previous . '-01'));
