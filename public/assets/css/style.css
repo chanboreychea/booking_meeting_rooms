@@ -4242,8 +4242,8 @@ ul li:last-child .card-list-4 {
 
 .burger-icon {
     position: absolute;
-    width: 24px;
-    height: 20px;
+    /* width: 24px;
+    height: 20px; */
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
     top: 7px;

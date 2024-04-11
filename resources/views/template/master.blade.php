@@ -86,6 +86,13 @@
                     @yield('message')
                 </div>
 
+
+                <a class="burger-icon btn btn-default" href="/login">Sign in</a>
+                {{-- <div class="burger-icon burger-icon-white">
+                    <span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span
+                        class="burger-icon-bottom"></span>
+                </div> --}}
+
                 <div class="header-right">
                     <div class="block-signin">
                         <!-- <a class="text-link-bd-btom hover-up" href="page-register.html">Register</a> -->
@@ -102,7 +109,47 @@
             </div>
         </div>
     </header>
+    {{-- <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-content-area">
+                <div class="perfect-scroll">
+                    <div class="mobile-search mobile-header-border mb-30">
+                        <form action="#">
+                            <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
+                        </form>
+                    </div>
+                    <div class="mobile-menu-wrap mobile-header-border">
+                        <!-- mobile menu start-->
+                        <nav>
+                            <ul class="mobile-menu font-heading">
+                                @if (Session::get('is_user_logged_in'))
+                                    <a class="" href="/logout">Sign out</a>
+                                @elseif (Session::get('is_admin_logged_in'))
+                                    <a class="" href="/admins/logout">Sign
+                                        out</a>
+                                @else
+                                    <a class="" href="/login">Sign in</a>
+                                @endif
 
+                                @if (Session::get('is_admin_logged_in'))
+                                    <li class="has-children"><a href="/booking">ការកក់បន្ទប់ប្រជុំ</a>
+                                    </li>
+                                    <li class="has-children"><a href="/users">មន្រ្តី</a></li>
+                                @endif
+                                @if (Session::get('is_user_logged_in'))
+                                    <li class="has-children"><a href="/calendar">ការកក់បន្ទប់ប្រជុំ</a>
+                                    </li>
+                                    <li class="has-children"><a href="/booking/history">ប្រវត្តិកក់បន្ទប់ប្រជុំ</a></li>
+                                @endif
+                            </ul>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
     <main class="main" style="min-height: 75vh; height:auto">
 
         <section class="section-box mt-130 mb-100">
