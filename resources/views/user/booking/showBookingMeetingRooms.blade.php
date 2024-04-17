@@ -31,4 +31,38 @@
             </tbody>
         </table>
     </div>
+
+    <div class="row">
+        @if ($booking->hasPages())
+            <div class="d-flex justify-content-between aligh-items-center">
+                {{-- Previous Page Link --}}
+                @if ($booking->onFirstPage())
+                    <button class="disabled btn btn-sm btn-light rounded-2 shadow-sm" aria-disabled="true"
+                        aria-label="@lang('pagination.previous')">
+                        <span aria-hidden="true"><i class='bx bx-chevrons-left'></i>Previous</span>
+                    </button>
+                @else
+                    <button class="btn btn-sm btn-light rounded-2 shadow-sm">
+                        <a href="{{ $booking->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')"><i
+                                class='bx bx-chevrons-left'></i>
+                            Previous</a>
+                    </button>
+                @endif
+
+                {{-- Next Page Link --}}
+                @if ($booking->hasMorePages())
+                    <button class="btn btn-sm btn-light rounded-2 shadow-sm">
+                        <a href="{{ $booking->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">Next
+                            <i class='bx bx-chevrons-right'></i></a>
+                    </button>
+                @else
+                    <button class="disabled btn btn-sm btn-light rounded-2 shadow-sm" aria-disabled="true"
+                        aria-label="@lang('pagination.next')">
+                        <span aria-hidden="true">Next<i class='bx bx-chevrons-right'></i></span>
+                    </button>
+                @endif
+            </div>
+        @endif
+
+    </div>
 @endsection

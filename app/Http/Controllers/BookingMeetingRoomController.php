@@ -44,7 +44,7 @@ class BookingMeetingRoomController extends Controller
                 'description',
                 'room',
                 'time'
-            )->get();
+            )->paginate(10);
 
         return view('user.booking.showBookingMeetingRooms', compact('booking'));
     }
