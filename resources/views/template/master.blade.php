@@ -87,7 +87,7 @@
                 </div>
 
 
-                <a class="burger-icon btn btn-default" href="/login">Sign in</a>
+                <a href="/login" class="burger-icon btn btn-default">Sign in</a>
                 {{-- <div class="burger-icon burger-icon-white">
                     <span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span
                         class="burger-icon-bottom"></span>

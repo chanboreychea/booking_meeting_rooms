@@ -1,7 +1,13 @@
 @extends('template.master')
 
 @section('contents')
-    <div class="row table-responsive">
+
+    <div class="d-flex justify-content-center mb-20">
+        <div class="text-primary" style="font-family: khmer mef2;font-size: 24px">ព័ត៌មានអំពីកិច្ចប្រជុំ
+        </div>
+    </div>
+
+    <div class="row table-responsive mt-5">
         <table class="table table-bordered">
             <thead class="thead-light">
                 <th class="text-center">ល.រ</th>
@@ -65,4 +71,5 @@
         @endif
 
     </div>
+
 @endsection
