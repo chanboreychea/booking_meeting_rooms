@@ -220,10 +220,12 @@
                                     placeholder="ឈ្មោះ"> --}}
 
                                 <select class="form-control" name="directedBy" id="directedBy">
+                                    <option value="">-- ជ្រើសរើស --</option>
                                     <option value="ប្រធានអង្គភាព">
                                         ប្រធានអង្គភាព
                                     </option>
-                                    <option value="អនុប្រធានអង្គភាព">អនុប្រធានអង្គភាព</option>
+                                    <option value="អនុប្រធានអង្គភាព​ ទី១">អនុប្រធានអង្គភាព​ ទី១</option>
+                                    <option value="អនុប្រធានអង្គភាព ទី២">អនុប្រធានអង្គភាព ទី២</option>
                                     @foreach ($departments as $key => $offices)
                                         <option value="ប្រធាននាយកដ្ឋាន{{ $key }}">
                                             ប្រធាននាយកដ្ឋាន
@@ -241,9 +243,9 @@
                                     @endforeach
                                 </select>
 
-                                {{-- @error('directedBy')
+                                @error('directedBy')
                                     <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror --}}
+                                @enderror
 
                             </div>
                         </div>
@@ -251,6 +253,7 @@
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="meetingLevel" class="col-form-label">កម្រិតប្រជុំ:</label>
                                 <select class="form-control" name="meetingLevel" id="meetingLevel">
+                                    <option value="">-- ជ្រើសរើស --</option>
                                     <option value="ការិយាល័យ">ការិយាល័យ</option>
                                     <option value="អន្តរការិយាល័យ">អន្តរការិយាល័យ</option>
                                     <option value="នាយកដ្ឋាន">នាយកដ្ឋាន</option>
@@ -258,6 +261,9 @@
                                     <option value="អង្គភាព">អង្គភាព</option>
                                     <option value="ផ្សេងៗ">ផ្សេងៗ</option>
                                 </select>
+                                @error('meetingLevel')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="member" class="col-form-label">ចំនួនសមាជិក:</label>

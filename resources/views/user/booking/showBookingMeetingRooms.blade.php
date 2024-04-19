@@ -18,7 +18,7 @@
                 <th class="text-center">បន្ទប់</th>
                 <th class="text-center">ម៉ោង</th>
                 <th class="text-center">ឈ្មោះអ្នកកក់</th>
-                <th class="text-center">គោលបំណង</th>
+                {{-- <th class="text-center">គោលបំណង</th> --}}
             </thead>
             <tbody>
                 @foreach ($booking as $key => $item)
@@ -31,7 +31,7 @@
                         <td class="text-center">{{ $item->room }}</td>
                         <td class="text-center">{{ $item->time }}</td>
                         <td class="text-center">{{ $item->name }}</td>
-                        <td class="text-center">{{ $item->description }}</td>
+                        {{-- <td class="text-center">{{ $item->description }}</td> --}}
                     </tr>
                 @endforeach
             </tbody>

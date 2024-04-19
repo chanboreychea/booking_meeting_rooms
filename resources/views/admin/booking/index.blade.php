@@ -121,7 +121,8 @@
                                 <option value="ប្រធានអង្គភាព">
                                     ប្រធានអង្គភាព
                                 </option>
-                                <option value="អនុប្រធានអង្គភាព">អនុប្រធានអង្គភាព</option>
+                                <option value="អនុប្រធានអង្គភាព​ ទី១">អនុប្រធានអង្គភាព​ ទី១</option>
+                                <option value="អនុប្រធានអង្គភាព ទី២">អនុប្រធានអង្គភាព ទី២</option>
                                 @foreach ($departments as $key => $offices)
                                     <option value="ប្រធាននាយកដ្ឋាន{{ $key }}">
                                         ប្រធាននាយកដ្ឋាន

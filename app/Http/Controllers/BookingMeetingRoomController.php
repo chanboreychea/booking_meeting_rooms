@@ -324,11 +324,12 @@ class BookingMeetingRoomController extends Controller
             'member' => 'bail|required|digits_between:1,2',
             'description' => 'max:255',
             'room' => 'required',
-            'times' => 'required'
+            'times' => 'required',
+            'meetingLevel' => 'required',
         ], [
             'topic.required' => 'សូមបញ្ចូលនូវឈ្មោះប្រធានបទ',
             'topic.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
-            'directedBy.required' => 'សូមបញ្ចូលនូវឈ្មោះអ្នកដឹកនាំ',
+            'directedBy.required' => 'សូមជ្រើសរើសនូវអ្នកដឹកនាំ',
             'directedBy.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
             'member.required' => 'សូមបញ្ចូលនូវចំនួនសមាជិក',
             'member.min' => 'អក្សរអនុញ្ញាតតិចបំផុតត្រឹម​ ២ តួរ',
@@ -336,6 +337,7 @@ class BookingMeetingRoomController extends Controller
             'description.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ២៥៥​ តួរ',
             'room.required' => 'សូមជ្រើសរើសបន្ទប់',
             'times.required' => 'សូមជ្រើសរើសម៉ោង',
+            'meetingLevel.required' => 'សូមជ្រើសរើសនូវកម្រិតប្រជុំ',
         ]);
 
         $topic = $request->input('topic');
