@@ -87,11 +87,11 @@
                 </div>
 
 
-                <a href="/login" class="burger-icon btn btn-default">Sign in</a>
-                {{-- <div class="burger-icon burger-icon-white">
+                {{-- <a href="/login" class="burger-icon btn btn-default">Sign in</a> --}}
+                <div class="burger-icon burger-icon-white">
                     <span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span
                         class="burger-icon-bottom"></span>
-                </div> --}}
+                </div>
 
                 <div class="header-right">
                     <div class="block-signin">
@@ -109,7 +109,7 @@
             </div>
         </div>
     </header>
-    {{-- <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-content-area">
                 <div class="perfect-scroll">
@@ -149,7 +149,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <main class="main" style="min-height: 75vh; height:auto">
 
         <section class="section-box mt-130 mb-100">
