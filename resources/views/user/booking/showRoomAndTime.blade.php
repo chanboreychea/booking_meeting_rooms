@@ -213,19 +213,16 @@
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="directedBy">ដឹកនាំដោយ:</label>
 
-                                {{-- <input type="text" class="form-control" name="directedBy" id="directedBy"
-                                    placeholder="ឈ្មោះ"> --}}
-
-                                <select class="form-control" name="directedBy" id="directedBy">
+                                <select class="form-control" name="directedBy" value="{{ old('derectedBy') }}"
+                                    id="directedBy">
                                     <option value="">-- ជ្រើសរើស --</option>
                                     <option value="ប្រធានអង្គភាព">
                                         ប្រធានអង្គភាព
                                     </option>
-                                    <option value="អនុប្រធានអង្គភាព​ ទី១">អនុប្រធានអង្គភាព​ ទី១</option>
-                                    <option value="អនុប្រធានអង្គភាព ទី២">អនុប្រធានអង្គភាព ទី២</option>
+                                    <option value="អនុប្រធានអង្គភាព">អនុប្រធានអង្គភាព</option>
                                     @foreach ($departments as $key => $offices)
                                         <option value="ប្រធាននាយកដ្ឋាន{{ $key }}">
                                             ប្រធាននាយកដ្ឋាន
@@ -248,6 +245,15 @@
                                 @enderror
 
                             </div>
+                            <div class="form-group col-md-3">
+                                <label for="nameDirectedBy">ឈ្មោះ:</label>
+                                <input type="text" class="form-control" name="nameDirectedBy" id="nameDirectedBy"
+                                    placeholder="ឈ្មោះ">
+                                @error('nameDirectedBy')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6 col-sm-12">
@@ -276,7 +282,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col"></div>
+                            <div class="col">
+                                <div id="relevantOfficeAndDepartment"></div>
+                            </div>
                             <div class="form-group col-lg-6 col-sm-12">
                                 <label for="description" class="col-form-label">គោលបំណង:</label>
                                 <div>
@@ -301,6 +309,8 @@
         var times = document.querySelectorAll('.times');
         var timeArray = [];
         var dataFromBookingController = {!! json_encode($verifyTimesBooking) !!};
+        var departmentAndOffice = @json($departments);
+
 
         room1.addEventListener('click', function() {
             const value = room1.value;
@@ -373,5 +383,68 @@
                 times[i].classList.toggle("btn-success");
             });
         }
+
+
+        function getSelectedMeetingLevelValue() {
+            const selectElement = document.getElementById('meetingLevel');
+            const selectedValue = selectElement.value;
+            if (selectedValue == "អន្តរនាយកដ្ឋាន") {
+                removeInput('offices');
+                createInput("នាយកដ្ឋាន", "departments");
+
+            } else if (selectedValue == "អន្តរការិយាល័យ") {
+                removeInput('departments');
+                createInput("ការិយាល័យ", "offices");
+
+            } else if (selectedValue == "ការិយាល័យ" || selectedValue == "នាយកដ្ឋាន") {
+                removeInput('offices');
+                removeInput('departments');
+            }
+
+        }
+
+        function createInput(name, meetingLevel) {
+            const newLabel = document.createElement('label');
+            newLabel.textContent = `ឈ្មោះ${name}:`;
+            newLabel.className = `col-form-label ${meetingLevel}`;
+
+            const selectElement = document.createElement('select');
+            selectElement.name = 'relevantOfficeAndDepartment[]';
+            selectElement.id = 'mySelectID';
+            selectElement.className = `form-control ${meetingLevel}`;
+
+            if (meetingLevel == "departments") {
+                for (const key in departmentAndOffice) {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = key;
+                    optionElement.textContent = key;
+                    selectElement.appendChild(optionElement);
+                }
+            } else {
+                for (const key in departmentAndOffice) {
+                    for (const office in departmentAndOffice[key]) {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = departmentAndOffice[key][office];
+                        optionElement.textContent = departmentAndOffice[key][office];
+                        selectElement.appendChild(optionElement);
+                    }
+                }
+            }
+
+
+            const parentElement = document.getElementById('relevantOfficeAndDepartment');
+            parentElement.appendChild(newLabel);
+            parentElement.appendChild(selectElement);
+        }
+
+        function removeInput(name) {
+            const container = document.querySelector('#relevantOfficeAndDepartment');
+            const childrenToRemove = container.querySelectorAll(`.${name}`);
+            childrenToRemove.forEach(child => {
+                container.removeChild(child);
+            });
+        }
+
+        document.getElementById('meetingLevel').addEventListener('change', getSelectedMeetingLevelValue);
     </script>
 @endsection

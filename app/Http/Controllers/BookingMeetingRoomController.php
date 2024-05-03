@@ -321,6 +321,7 @@ class BookingMeetingRoomController extends Controller
         $request->validate([
             'topic' => 'bail|required|max:100',
             'directedBy' => 'bail|required|max:100',
+            'nameDirectedBy' => 'bail|required|max:100',
             'member' => 'bail|required|digits_between:1,2',
             'description' => 'max:255',
             'room' => 'required',
@@ -331,6 +332,7 @@ class BookingMeetingRoomController extends Controller
             'topic.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
             'directedBy.required' => 'សូមជ្រើសរើសនូវអ្នកដឹកនាំ',
             'directedBy.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
+            'nameDirectedBy.required' => 'សូមជ្រើសរើសនូវឈ្មោះអ្នកដឹកនាំ',
             'member.required' => 'សូមបញ្ចូលនូវចំនួនសមាជិក',
             'member.min' => 'អក្សរអនុញ្ញាតតិចបំផុតត្រឹម​ ២ តួរ',
             'member.max' => 'អក្សរអនុញ្ញាតត្រឹម​ ១០០​ តួរ',
@@ -342,7 +344,12 @@ class BookingMeetingRoomController extends Controller
 
         $topic = $request->input('topic');
         $directedBy = $request->input('directedBy');
+        $nameDirectedBy = $request->input('nameDirectedBy');
         $meetingLevel = $request->input('meetingLevel');
+        $relevantOfficeAndDepartmentArray = $request->input('relevantOfficeAndDepartment');
+        if ($relevantOfficeAndDepartmentArray) $relevantOfficeAndDepartment = implode(', ', $relevantOfficeAndDepartmentArray);
+        else $relevantOfficeAndDepartment = null;
+
         $member = $request->input('member');
         $date = Carbon::parse($request->input('date'))->format("Y-m-d");
         $room = $request->input('room');
@@ -353,40 +360,40 @@ class BookingMeetingRoomController extends Controller
 
         $user = User::find($userId);
 
-        DB::beginTransaction();
-        try {
+        // DB::beginTransaction();
+        // try {
 
-            BookingMeetingRoom::create([
-                'userId' => $userId,
-                'date' => $date,
-                'topicOfMeeting' => $topic,
-                'directedBy' => $directedBy,
-                'meetingLevel' => $meetingLevel,
-                'member' => $member,
-                'room' => $room,
-                'time' => $times,
-                'description' => $description,
-                'isApprove' => Status::PENDING
-            ]);
+        BookingMeetingRoom::create([
+            'userId' => $userId,
+            'date' => $date,
+            'topicOfMeeting' => $topic,
+            'directedBy' => $directedBy,
+            'nameDirectedBy' => $nameDirectedBy,
+            'meetingLevel' => $meetingLevel,
+            'relevantOfficeAndDepartment' => $relevantOfficeAndDepartment,
+            'member' => $member,
+            'room' => $room,
+            'time' => $times,
+            'description' => $description,
+            'isApprove' => Status::PENDING
+        ]);
 
-            $today = Carbon::now();
+        $today = Carbon::now();
 
-            $user = User::find($userId);
+        $message = "សំណើសុំប្រើប្រាស់បន្ទប់ប្រជុំ" . PHP_EOL . "ដឹកនាំដោយ៖ $directedBy " . PHP_EOL . "ប្រធានបទស្តីពី៖ $topic" . PHP_EOL .
+            "ចំនួនសមាជិកចូលរួម៖ $member រូប" . PHP_EOL . "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $room" . PHP_EOL . "កម្រិតប្រជុំ៖ $meetingLevel" . PHP_EOL .
+            "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
+            "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
 
-            $message = "សំណើសុំប្រើប្រាស់បន្ទប់ប្រជុំ" . PHP_EOL . "ដឹកនាំដោយ៖ $directedBy " . PHP_EOL . "ប្រធានបទស្តីពី៖ $topic" . PHP_EOL .
-                "ចំនួនសមាជិកចូលរួម៖ $member រូប" . PHP_EOL . "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $room" . PHP_EOL . "កម្រិតប្រជុំ៖ $meetingLevel" . PHP_EOL .
-                "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
-                "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
+        // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
+        // $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
-            // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
-            $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
-
-            DB::commit();
-            return redirect('/calendar')->with('message', 'Booking Successfully.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect('/calendar')->with('message', 'Please try again!!');
-        }
+        //     DB::commit();
+        return redirect('/calendar')->with('message', 'Booking Successfully.');
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return redirect('/calendar')->with('message', 'Please try again!!');
+        // }
     }
 
     public function sendMessage($chatId, $message, $token)
