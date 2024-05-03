@@ -360,40 +360,40 @@ class BookingMeetingRoomController extends Controller
 
         $user = User::find($userId);
 
-        // DB::beginTransaction();
-        // try {
+        DB::beginTransaction();
+        try {
 
-        BookingMeetingRoom::create([
-            'userId' => $userId,
-            'date' => $date,
-            'topicOfMeeting' => $topic,
-            'directedBy' => $directedBy,
-            'nameDirectedBy' => $nameDirectedBy,
-            'meetingLevel' => $meetingLevel,
-            'relevantOfficeAndDepartment' => $relevantOfficeAndDepartment,
-            'member' => $member,
-            'room' => $room,
-            'time' => $times,
-            'description' => $description,
-            'isApprove' => Status::PENDING
-        ]);
+            BookingMeetingRoom::create([
+                'userId' => $userId,
+                'date' => $date,
+                'topicOfMeeting' => $topic,
+                'directedBy' => $directedBy,
+                'nameDirectedBy' => $nameDirectedBy,
+                'meetingLevel' => $meetingLevel,
+                'relevantOfficeAndDepartment' => $relevantOfficeAndDepartment,
+                'member' => $member,
+                'room' => $room,
+                'time' => $times,
+                'description' => $description,
+                'isApprove' => Status::PENDING
+            ]);
 
-        $today = Carbon::now();
+            $today = Carbon::now();
 
-        $message = "សំណើសុំប្រើប្រាស់បន្ទប់ប្រជុំ" . PHP_EOL . "ដឹកនាំដោយ៖ $directedBy " . PHP_EOL . "ប្រធានបទស្តីពី៖ $topic" . PHP_EOL .
-            "ចំនួនសមាជិកចូលរួម៖ $member រូប" . PHP_EOL . "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $room" . PHP_EOL . "កម្រិតប្រជុំ៖ $meetingLevel" . PHP_EOL .
-            "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
-            "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
+            $message = "សំណើសុំប្រើប្រាស់បន្ទប់ប្រជុំ" . PHP_EOL . "ដឹកនាំដោយ៖ $directedBy " . PHP_EOL . "ប្រធានបទស្តីពី៖ $topic" . PHP_EOL .
+                "ចំនួនសមាជិកចូលរួម៖ $member រូប" . PHP_EOL . "ប្រភេទបន្ទប់ប្រជុំ៖ បន្ទប់ប្រជុំ $room" . PHP_EOL . "កម្រិតប្រជុំ៖ $meetingLevel" . PHP_EOL .
+                "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
+                "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
 
-        // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
-        // $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
+            // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
+            $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
-        //     DB::commit();
-        return redirect('/calendar')->with('message', 'Booking Successfully.');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect('/calendar')->with('message', 'Please try again!!');
-        // }
+            DB::commit();
+            return redirect('/calendar')->with('message', 'Booking Successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect('/calendar')->with('message', 'Please try again!!');
+        }
     }
 
     public function sendMessage($chatId, $message, $token)
