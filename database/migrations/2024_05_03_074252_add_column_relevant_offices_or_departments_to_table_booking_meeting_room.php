@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('booking_meeting_rooms', function (Blueprint $table) {
             $table->string('nameDirectedBy',100)->nullable();
-            $table->string('relevantOfficeAndDepartment')->nullable();
+            $table->string('interOfficeOrDepartmental')->nullable();
         });
     }
 

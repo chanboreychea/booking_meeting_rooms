@@ -8,6 +8,7 @@
                 <th class="text-center">កាលបរិច្ឆេទ</th>
                 <th class="text-center">ប្រធានបទ</th>
                 <th class="text-center">ដឹកនាំដោយ</th>
+                <th class="text-center">ឈ្មោះអ្នកដឹកនាំ</th>
                 <th class="text-center">កម្រិតប្រជុំ</th>
                 <th class="text-center">បន្ទប់</th>
                 <th class="text-center">ម៉ោង</th>
@@ -22,8 +23,9 @@
                         <td class="text-center">{{ $item->date }}</td>
                         <td class="text-center text-oneline">{{ $item->topicOfMeeting }}</td>
                         <td class="text-center">{{ $item->directedBy }}</td>
+                        <td class="text-center">{{ $item->nameDirectedBy }}</td>
                         <td class="text-center">
-                            <div data-toggle="tooltip" data-html="true" title="{{ $item->relevantOfficeAndDepartment }}">
+                            <div data-toggle="tooltip" data-html="true" title="{{ $item->interOfficeOrDepartmental }}">
                                 {{ $item->meetingLevel }}
                             </div>
                             {{-- <div class="meetingLevelShow">{{ $item->meetingLevel }}</div>

@@ -30,10 +30,13 @@
                         <td class="text-center">{{ $item->directedBy }}</td>
                         <td class="text-center">{{ $item->nameDirectedBy }}</td>
                         <td class="text-center">
-                            <div class="meetingLevelShow">{{ $item->meetingLevel }}</div>
+                            <div data-toggle="tooltip" data-html="true" title="{{ $item->interOfficeOrDepartmental }}">
+                                {{ $item->meetingLevel }}
+                            </div>
+                            {{-- <div class="meetingLevelShow">{{ $item->meetingLevel }}</div>
                             <div class="showOfficeAndDepartment">
                                 {{ $item->relevantOfficeAndDepartment }}
-                            </div>
+                            </div> --}}
                         </td>
                         <td class="text-center">{{ $item->room }}</td>
                         <td class="text-center">{{ $item->time }}</td>

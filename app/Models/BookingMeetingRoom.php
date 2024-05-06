@@ -16,7 +16,7 @@ class BookingMeetingRoom extends Model
         'directedBy',
         'nameDirectedBy',
         'meetingLevel',
-        'relevantOfficeAndDepartment',
+        'interOfficeOrDepartmental',
         'member',
         'room',
         'time',

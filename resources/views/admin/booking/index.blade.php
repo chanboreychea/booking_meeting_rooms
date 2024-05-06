@@ -56,8 +56,7 @@
                             <td class="text-center">{{ $item->directedBy }}</td>
                             <td class="text-center">{{ $item->nameDirectedBy }}</td>
                             <td class="text-center">
-                                <div data-toggle="tooltip" data-html="true"
-                                    title="{{ $item->relevantOfficeAndDepartment }}">
+                                <div data-toggle="tooltip" data-html="true" title="{{ $item->interOfficeOrDepartmental }}">
                                     {{ $item->meetingLevel }}
                                 </div>
                                 {{-- <div class="meetingLevelShow">{{ $item->meetingLevel }}</div>
@@ -217,7 +216,7 @@
                             <td class="text-center">{{ $item->nameDirectedBy }}</td>
                             <td class="text-center">
                                 <div data-toggle="tooltip" data-html="true"
-                                    title="{{ $item->relevantOfficeAndDepartment }}">
+                                    title="{{ $item->interOfficeOrDepartmental }}">
                                     {{ $item->meetingLevel }}
                                 </div>
                                 {{-- <div class="meetingLevelShow">{{ $item->meetingLevel }}</div>

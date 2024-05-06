@@ -283,7 +283,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div id="relevantOfficeAndDepartment"></div>
+                                <div id="interOfficeOrDepartmental"></div>
                             </div>
                             <div class="form-group col-lg-6 col-sm-12">
                                 <label for="description" class="col-form-label">គោលបំណង:</label>
@@ -409,8 +409,8 @@
             newLabel.className = `col-form-label ${meetingLevel}`;
 
             const selectElement = document.createElement('select');
-            selectElement.name = 'relevantOfficeAndDepartment[]';
-            selectElement.id = 'mySelectID';
+            selectElement.name = 'interOfficeOrDepartmental[]';
+            // selectElement.id = 'mySelectID';
             selectElement.className = `form-control ${meetingLevel}`;
 
             if (meetingLevel == "departments") {
@@ -432,13 +432,13 @@
             }
 
 
-            const parentElement = document.getElementById('relevantOfficeAndDepartment');
+            const parentElement = document.getElementById('interOfficeOrDepartmental');
             parentElement.appendChild(newLabel);
             parentElement.appendChild(selectElement);
         }
 
         function removeInput(name) {
-            const container = document.querySelector('#relevantOfficeAndDepartment');
+            const container = document.querySelector('#interOfficeOrDepartmental');
             const childrenToRemove = container.querySelectorAll(`.${name}`);
             childrenToRemove.forEach(child => {
                 container.removeChild(child);

@@ -41,7 +41,7 @@ class BookingMeetingRoomController extends Controller
                 'directedBy',
                 'nameDirectedBy',
                 'meetingLevel',
-                'relevantOfficeAndDepartment',
+                'interOfficeOrDepartmental',
                 'member',
                 'description',
                 'room',
@@ -69,7 +69,7 @@ class BookingMeetingRoomController extends Controller
                 'directedBy',
                 'nameDirectedBy',
                 'meetingLevel',
-                'relevantOfficeAndDepartment',
+                'interOfficeOrDepartmental',
                 'member',
                 'room',
                 'time',
@@ -150,7 +150,9 @@ class BookingMeetingRoomController extends Controller
                 'date',
                 'topicOfMeeting',
                 'directedBy',
+                'nameDirectedBy',
                 'meetingLevel',
+                'interOfficeOrDepartmental',
                 'member',
                 'room',
                 'time',
@@ -212,6 +214,7 @@ class BookingMeetingRoomController extends Controller
 
         $booking->save();
 
+        $this->send($message);
         // $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
         return redirect()->back()->with('message', 'Update Successfully');
@@ -350,9 +353,9 @@ class BookingMeetingRoomController extends Controller
         $directedBy = $request->input('directedBy');
         $nameDirectedBy = $request->input('nameDirectedBy');
         $meetingLevel = $request->input('meetingLevel');
-        $relevantOfficeAndDepartmentArray = $request->input('relevantOfficeAndDepartment');
-        if ($relevantOfficeAndDepartmentArray) $relevantOfficeAndDepartment = implode(', ', $relevantOfficeAndDepartmentArray);
-        else $relevantOfficeAndDepartment = null;
+        $interOfficeOrDepartmentalArray = $request->input('interOfficeOrDepartmental');
+        if ($interOfficeOrDepartmentalArray) $interOfficeOrDepartmental = implode(', ', $interOfficeOrDepartmentalArray);
+        else $interOfficeOrDepartmental = null;
 
         $member = $request->input('member');
         $date = Carbon::parse($request->input('date'))->format("Y-m-d");
@@ -374,7 +377,7 @@ class BookingMeetingRoomController extends Controller
                 'directedBy' => $directedBy,
                 'nameDirectedBy' => $nameDirectedBy,
                 'meetingLevel' => $meetingLevel,
-                'relevantOfficeAndDepartment' => $relevantOfficeAndDepartment,
+                'interOfficeOrDepartmental' => $interOfficeOrDepartmental,
                 'member' => $member,
                 'room' => $room,
                 'time' => $times,
@@ -389,8 +392,9 @@ class BookingMeetingRoomController extends Controller
                 "កាលបរិច្ឆេទកិច្ចប្រជុំ៖ $date " . PHP_EOL .
                 "ម៉ោង៖ $times" . PHP_EOL . "កាលបរិច្ឆេទស្នើសុំ៖ $today" . PHP_EOL . "អ៊ីមែល: $user->email" . PHP_EOL . "ឈ្មោះមន្រ្តីស្នើសុំ៖ $user->name";
 
+            $this->send($message);
             // $this->sendMessage(1499573227, $message, "7016210108:AAFqqisOdt9lCixJ7Hg1y9HYJosomMam2fc");
-            $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
+            // $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
             DB::commit();
             return redirect('/calendar')->with('message', 'Booking Successfully.');
@@ -418,11 +422,17 @@ class BookingMeetingRoomController extends Controller
             // Handle the error, e.g., log it or display an error message
             // echo "cURL Error: " . $error;
             return redirect()->back()->with('message', 'Please try again!!.');
-        } else {
-            // Request successful, you can process the result here
-            echo "Message sent successfully!";
         }
+        // else {
+        //     // Request successful, you can process the result here
+        //     // echo "Message sent successfully!";
+        // }
 
         curl_close($ch);
+    }
+
+    public function send($message)
+    {
+        $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
     }
 }
