@@ -45,6 +45,18 @@
             line-clamp: 1;
             -webkit-box-orient: vertical;
         }
+
+        .meetingLevelShow {
+            cursor: pointer;
+        }
+
+        .showOfficeAndDepartment {
+            display: none;
+        }
+
+        .showOfficeAndDepartment .show {
+            display: block;
+        }
     </style>
 </head>
 
@@ -231,6 +243,23 @@
         setTimeout(function() {
             $('#success-alert, #error-alert').fadeOut('slow');
         }, 5000);
+
+        // var meetingLevelShow = document.querySelectorAll('.meetingLevelShow');
+        // var showOfficeAndDepartment = document.querySelectorAll('.showOfficeAndDepartment');
+        // for (let i = 0; i < meetingLevelShow.length; i++) {
+        //     meetingLevelShow[i].addEventListener('mouseenter', function() {
+        //         showOfficeAndDepartment[i].className = "d-block";
+        //     });
+
+        //     // Add leave event listener to hide the dropdown on mouse leave
+        //     meetingLevelShow[i].addEventListener('mouseleave', function() {
+        //         showOfficeAndDepartment[i].className = "d-none";
+        //     });
+        // }
+
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 
 </body>

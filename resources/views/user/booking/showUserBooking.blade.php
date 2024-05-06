@@ -22,7 +22,15 @@
                         <td class="text-center">{{ $item->date }}</td>
                         <td class="text-center text-oneline">{{ $item->topicOfMeeting }}</td>
                         <td class="text-center">{{ $item->directedBy }}</td>
-                        <td class="text-center">{{ $item->meetingLevel }}</td>
+                        <td class="text-center">
+                            <div data-toggle="tooltip" data-html="true" title="{{ $item->relevantOfficeAndDepartment }}">
+                                {{ $item->meetingLevel }}
+                            </div>
+                            {{-- <div class="meetingLevelShow">{{ $item->meetingLevel }}</div>
+                            <div class="showOfficeAndDepartment">
+                                {{ $item->relevantOfficeAndDepartment }}
+                            </div> --}}
+                        </td>
                         <td class="text-center">{{ $item->room }}</td>
                         <td class="text-center">{{ $item->time }}</td>
                         <td class="text-center cardd">

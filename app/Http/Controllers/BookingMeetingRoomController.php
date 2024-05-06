@@ -39,7 +39,9 @@ class BookingMeetingRoomController extends Controller
                 'userId',
                 'topicOfMeeting',
                 'directedBy',
+                'nameDirectedBy',
                 'meetingLevel',
+                'relevantOfficeAndDepartment',
                 'member',
                 'description',
                 'room',
@@ -65,7 +67,9 @@ class BookingMeetingRoomController extends Controller
                 'date',
                 'topicOfMeeting',
                 'directedBy',
+                'nameDirectedBy',
                 'meetingLevel',
+                'relevantOfficeAndDepartment',
                 'member',
                 'room',
                 'time',
@@ -208,7 +212,7 @@ class BookingMeetingRoomController extends Controller
 
         $booking->save();
 
-        $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
+        // $this->sendMessage(-1002100151991, $message, "6914906518:AAH3QI2RQRA2CVPIL67B9p6mFtQm3kZwyvU");
 
         return redirect()->back()->with('message', 'Update Successfully');
     }
