@@ -45,15 +45,15 @@ class BookingMeetingRoomExport implements WithTitle, WithDrawings, WithHeadings,
             ],
 
         ];
-        $sheet->getStyle("A1:J100")->getFont()->setName('Khmer');
+        $sheet->getStyle("A1:K100")->getFont()->setName('Khmer');
         $sheet->getTabColor()->setRGB('0000ff');
-        $sheet->getStyle('A5:J5')->getFont()->getColor()->setARGB('FFFFFF');
-        $sheet->getStyle("A5:J5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
-        $sheet->getStyle("A1:J4")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FFA500');
+        $sheet->getStyle('A5:K5')->getFont()->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle("A5:K5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FF0000');
+        $sheet->getStyle("A1:K4")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('FFA500');
         for ($i = 0; $i <= count($this->array()); $i++) {
             $row = $i + 5;
-            $sheet->getStyle("A$row:J$row")->getFont()->setSize(9);
-            $sheet->getStyle("A$row:J$row")->applyFromArray($styleArray);
+            $sheet->getStyle("A$row:K$row")->getFont()->setSize(9);
+            $sheet->getStyle("A$row:K$row")->applyFromArray($styleArray);
 
             if ($i == count($this->array())) {
                 $see = $row + 2;
@@ -112,6 +112,7 @@ class BookingMeetingRoomExport implements WithTitle, WithDrawings, WithHeadings,
                 'កាលបរិច្ឆេទ',
                 'ប្រធានបទ',
                 'ដឹកនាំដោយ',
+                'ឈ្មោះអ្នកដឹកនាំ',
                 'ឈ្មោះអ្នកកក់',
                 'កម្រិតប្រជុំ',
                 'សមាជិក',
@@ -132,6 +133,7 @@ class BookingMeetingRoomExport implements WithTitle, WithDrawings, WithHeadings,
                 $item->date,
                 $item->topicOfMeeting,
                 $item->directedBy,
+                $item->nameDirectedBy,
                 $item->name,
                 $item->meetingLevel,
                 $item->member,
