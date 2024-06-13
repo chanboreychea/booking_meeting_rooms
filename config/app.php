@@ -65,8 +65,8 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
-
+    // 'timezone' => env('APP_TIMEZONE', 'Asia/Phnom_Penh'),
+    'timezone' => 'Asia/Phnom_Penh',
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
